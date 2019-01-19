@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "nodemon": "^1.18.6",
+    "ts-node": "^7.0.1"
+  },
+  "scripts": {
+    "build-ts": "tsc",
+    "start": "babel-node ./test.js",
+    "start:dev": "nodemon",
+    "serve": "babel-node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "typescript": "^3.1.6"
+  }
+}
