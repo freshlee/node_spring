@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/app/index.js"],"names":[],"mappings":";;;;;;;;aACI,kBAAe;AAAA;AAEd,C","file":"index.js","sourcesContent":["export default class {\r\n    constructor () {\r\n        \r\n    }\r\n}"]}

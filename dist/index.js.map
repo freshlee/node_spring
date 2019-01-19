@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.js"],"names":["app","App"],"mappings":";;AAAA;;;;;;AACA;AACA,IAAMA,MAAM,IAAIC,eAAJ,EAAZ","file":"index.js","sourcesContent":["import App from './app/Controller/index.js';\r\n// console.log(11)\r\nconst app = new App()"]}
