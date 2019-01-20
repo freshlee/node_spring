@@ -7,7 +7,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _desc, _value, _class;
+var _dec, _dec2, _dec3, _desc, _value, _class;
 
 var _express = require('express');
 
@@ -20,6 +20,10 @@ var _bodyParser2 = _interopRequireDefault(_bodyParser);
 var _UserService = require('../Service/UserService');
 
 var _UserService2 = _interopRequireDefault(_UserService);
+
+var _Annocation = require('../Annocation');
+
+var _Annocation2 = _interopRequireDefault(_Annocation);
 
 var _BaseController2 = require('./BaseController');
 
@@ -62,32 +66,11 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     return desc;
 }
 
+var GetMapping = _Annocation2.default.GetMapping,
+    PostMapping = _Annocation2.default.PostMapping;
+
 var service = new _UserService2.default();
-// const app = express()
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.use(bodyParser.json());
-// app.listen(8080)
-function GetMapping(value) {
-    return function (target, key, descriptor) {
-        _BaseController3.default.app().get(value, function (req, res) {
-            console.log(target);
-            res.send(target[key](req));
-        });
-        return descriptor;
-    };
-}
-function PostMapping(value) {
-    return function (target, key, descriptor) {
-        _BaseController3.default.app().post(value, function (req, resoponse) {
-            console.log(target);
-            target[key](req).then(function (res) {
-                resoponse.send(res);
-            });
-        });
-        return descriptor;
-    };
-}
-var LoginController = (_dec = GetMapping('/login'), (_class = function (_BaseController) {
+var LoginController = (_dec = PostMapping('/user/login'), _dec2 = GetMapping('/user'), _dec3 = GetMapping('/routes'), (_class = function (_BaseController) {
     _inherits(LoginController, _BaseController);
 
     function LoginController() {
@@ -104,13 +87,59 @@ var LoginController = (_dec = GetMapping('/login'), (_class = function (_BaseCon
 
     _createClass(LoginController, [{
         key: 'init',
-        value: function init(req) {
-            console.log(req.query);
-            return req.query;
+        value: function init(req, resoponse) {
+            return new Promise(function (resolve) {
+                var now = new Date();
+                resoponse.cookie('token', JSON.stringify({ id: '213123', deadline: now.getTime() }), {
+                    maxAge: 900000,
+                    httpOnly: true
+                });
+                resolve({ success: true, message: 'Ok' });
+            });
+        }
+    }, {
+        key: 'userInfo',
+        value: function userInfo(req) {
+            return new Promise(function (resolve) {
+                resolve({
+                    success: true,
+                    user: {
+                        id: '2435345',
+                        username: 'lee',
+                        nickName: 'lee',
+                        phone: 15728468116,
+                        age: 27,
+                        address: 'china',
+                        isMale: true,
+                        email: 'aasdasdas@email',
+                        createTime: '2019-01-19',
+                        avatar: '',
+                        permissions: {
+                            role: 'admin'
+                        }
+                    }
+                });
+            });
+        }
+    }, {
+        key: 'getRoute',
+        value: function getRoute(req) {
+            return new Promise(function (resolve) {
+                resolve({
+                    success: true,
+                    list: [{
+                        id: '45',
+                        name: 'overTime',
+                        zhName: 'overTime',
+                        icon: 'edit',
+                        route: '/overTime'
+                    }]
+                });
+            });
         }
     }]);
 
     return LoginController;
-}(_BaseController3.default), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'init'), _class.prototype)), _class));
+}(_BaseController3.default), (_applyDecoratedDescriptor(_class.prototype, 'init', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'userInfo', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'userInfo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'getRoute', [_dec3], Object.getOwnPropertyDescriptor(_class.prototype, 'getRoute'), _class.prototype)), _class));
 exports.default = LoginController;
 //# sourceMappingURL=loginContoller.js.map

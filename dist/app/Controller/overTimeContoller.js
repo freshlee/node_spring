@@ -25,6 +25,10 @@ var _BaseController2 = require('./BaseController');
 
 var _BaseController3 = _interopRequireDefault(_BaseController2);
 
+var _Annocation = require('../Annocation');
+
+var _Annocation2 = _interopRequireDefault(_Annocation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -62,31 +66,10 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     return desc;
 }
 
+var GetMapping = _Annocation2.default.GetMapping,
+    PostMapping = _Annocation2.default.PostMapping;
+
 var service = new _Service2.default();
-// const app = express()
-// app.use(bodyParser.urlencoded({extended: false}));
-// app.use(bodyParser.json());
-// app.listen(8080)
-function GetMapping(value) {
-    return function (target, key, descriptor) {
-        _BaseController3.default.app().get(value, function (req, res) {
-            console.log(target);
-            res.send(target[key](req));
-        });
-        return descriptor;
-    };
-}
-function PostMapping(value) {
-    return function (target, key, descriptor) {
-        _BaseController3.default.app().post(value, function (req, resoponse) {
-            console.log(target);
-            target[key](req).then(function (res) {
-                resoponse.send(res);
-            });
-        });
-        return descriptor;
-    };
-}
 var LoginController = (_dec = PostMapping('/addOverTime'), (_class = function (_BaseController) {
     _inherits(LoginController, _BaseController);
 
@@ -106,7 +89,13 @@ var LoginController = (_dec = PostMapping('/addOverTime'), (_class = function (_
         key: 'addOverTime',
         value: function addOverTime(req) {
             console.log(req.body);
-            return service.insertObj(req.body).then(function (res) {
+            var OverTime = {
+                endDate: req.body.endDate,
+                startDate: req.body.startDate,
+                reason: req.body.reason,
+                userId: req.body.userId
+            };
+            return service.insertObj(OverTime).then(function (res) {
                 return {
                     code: 200,
                     msg: 'sucess'
